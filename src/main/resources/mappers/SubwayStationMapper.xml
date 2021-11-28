@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.google.house.mapper.SubwayStationMapper">
+
+    <resultMap id="SubwayStationResult" type="com.google.house.domain.SubwayStation">
+        <id column="id" property="id"></id>
+        <result column="subway_id" property="subwayId"></result>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+    <select id="findAllBySubwayId" resultMap="SubwayStationResult" parameterType="java.lang.Long">
+        select * from subway_station where subway_id = #{subwayId}
+    </select>
+
+    <select id="findBySubwayId" resultMap="SubwayStationResult" parameterType="java.lang.Long">
+        select * from subway_station where id = #{id}
+    </select>
+
+</mapper>

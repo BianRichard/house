@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.google.house.mapper.HousePictureMapper">
+
+    <resultMap id="housePictureResult" type="com.google.house.domain.HousePicture">
+        <id column="id" property="id"></id>
+        <result column="house_id" property="houseId"></result>
+        <result column="path" property="path"></result>
+        <result column="cdn_prefix" property="cdnPrefix"></result>
+        <result column="width" property="width"></result>
+        <result column="height" property="height"></result>
+        <result column="location" property="location"></result>
+    </resultMap>
+
+    <select id="findAllByHouseId" resultMap="housePictureResult" parameterType="java.lang.Long">
+        select * from house_picture where house_id = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.google.house.domain.HousePicture" keyProperty="id" useGeneratedKeys="true">
+        insert into house_picture(house_id,cdn_prefix,width,height,location,path)
+        values
+        <foreach collection="housePictures" item="housePicture" separator=", ">
+            (#{housePicture.houseId},#{housePicture.cdnPrefix},#{housePicture.width},#{housePicture.height},#{housePicture.location},#{housePicture.path})
+        </foreach>
+    </insert>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="housePictureResult">
+        select * from house_picture where id = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from house_picture where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.google.house.mapper.HouseDetailMapper">
+
+    <resultMap id="houseDetailResult" type="com.google.house.domain.HouseDetail">
+        <id column="id" property="id"></id>
+        <result column="description" property="description"></result>
+        <result column="layout_desc" property="layoutDesc"></result>
+        <result column="traffic" property="traffic"></result>
+        <result column="round_service" property="roundService"></result>
+        <result column="rent_way" property="rentWay"></result>
+        <result column="address" property="detailAddress"></result>
+        <result column="subway_line_id" property="subwayLineId"></result>
+        <result column="subway_line_name" property="subwayLineName"></result>
+        <result column="subway_station_id" property="subwayStationId"></result>
+        <result column="subway_station_name" property="subwayStationName"></result>
+        <result column="house_id" property="houseId"></result>
+    </resultMap>
+
+    <select id="findByHouseId" resultMap="houseDetailResult" parameterType="java.lang.Long">
+        select *
+        from house_detail
+        where id = #{houseId}
+    </select>
+
+    <select id="findAllByHouseIdIn" resultMap="houseDetailResult">
+        select * from house_detail where id in
+        <foreach item="id" collection="houseIds"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="save" parameterType="com.google.house.domain.HouseDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into house_detail(description, layout_desc, traffic, round_service, rent_way, address, subway_line_id,
+                                 subway_line_name, subway_station_id, subway_station_name, house_id)
+        values (#{description}, #{layoutDesc}, #{traffic}, #{roundService}, #{rentWay}, #{detailAddress},
+                #{subwayLineId}, #{subwayLineName}, #{subwayStationId}, #{subwayStationName}, #{houseId})
+    </insert>
+
+</mapper>

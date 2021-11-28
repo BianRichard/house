@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.google.house.mapper.SupportAddressMapper">
+    <resultMap id="SupportAddressResult" type="com.google.house.domain.SupportAddress">
+        <id column="id" property="id"></id>
+        <result column="belong_to" property="belongTo"></result>
+        <result column="en_name" property="enName"></result>
+        <result column="cn_name" property="cnName"></result>
+        <result column="level" property="level"></result>
+        <result column="baidu_map_lng" property="baiduMapLongitude"></result>
+        <result column="baidu_map_lat" property="baiduMapLatitude"></result>
+    </resultMap>
+
+    <select id="findAllByLevel" resultMap="SupportAddressResult" parameterType="java.lang.String">
+        SELECT *
+        FROM support_address
+        WHERE level = #{level};
+    </select>
+
+    <select id="findByEnNameAndLevel" resultMap="SupportAddressResult">
+        SELECT *
+        FROM support_address
+        WHERE en_name = #{enName} and level = #{level};
+    </select>
+
+    <select id="findByEnNameAndBelongTo" resultMap="SupportAddressResult">
+        SELECT *
+        FROM support_address
+        WHERE en_name = #{enName}
+          and belong_to = #{belongTo};
+    </select>
+
+    <select id="findAllByLevelAndBelongTo" resultMap="SupportAddressResult">
+        SELECT *
+        FROM support_address
+        WHERE belong_to = #{belongTo}
+           or (level = #{level} and belong_to = #{belongTo})
+    </select>
+
+<!--    <select id="findByEnName" resultMap="SupportAddressResult" parameterType="java.lang.String">-->
+<!--        SELECT *-->
+<!--        FROM support_address-->
+<!--        WHERE en_name = #{enName}-->
+<!--    </select>-->
+
+<!--    <select id="findAllByEnNameAndBelongTo" resultMap="SupportAddressResult">-->
+<!--        SELECT *-->
+<!--        FROM support_address-->
+<!--        WHERE belong_to = #{belongTo} or (belong_to = #{belongTo} and en_name = #{enName})-->
+<!--    </select>-->
+</mapper>

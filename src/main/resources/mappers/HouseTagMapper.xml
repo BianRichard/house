@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.google.house.mapper.HouseTagMapper">
+    <resultMap id="houseTagResult" type="com.google.house.domain.HouseTag">
+        <id column="id" property="id"></id>
+        <result column="house_id" property="houseId"></result>
+        <result column="name" property="name"></result>
+    </resultMap>
+
+    <select id="findByNameAndHouseId" resultMap="houseTagResult" parameterType="com.google.house.domain.HouseTag">
+        select *
+        from house_tag
+        where house_id = #{houseId}
+          and name = #{name}
+    </select>
+
+    <select id="findAllByHouseId" resultMap="houseTagResult" parameterType="java.lang.Long">
+        select *
+        from house_tag
+        where id = #{id}
+    </select>
+
+    <select id="findAllByHouseIdIn" resultMap="houseTagResult" parameterType="java.lang.Long">
+        select * from house_tag where house_id in
+        <foreach item="id" collection="houseIds"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="save" parameterType="com.google.house.domain.HouseTag" keyProperty="id" useGeneratedKeys="true">
+        insert into house_tag(house_id,name)
+        values
+        <foreach collection="houseTags" item="houseTag" separator=", ">
+            (#{houseTag.houseId},#{houseTag.name})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from house_tag where id = #{id}
+    </delete>
+
+</mapper>

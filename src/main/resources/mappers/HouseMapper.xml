@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.google.house.mapper.HouseMapper">
+
+    <resultMap id="houseResult" type="com.google.house.domain.House">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="adminId" property="adminId"></result>
+        <result column="price" property="price"></result>
+        <result column="area" property="area"></result>
+        <result column="room" property="room"></result>
+        <result column="parlour" property="parlour"></result>
+        <result column="bathroom" property="bathroom"></result>
+        <result column="floor" property="floor"></result>
+        <result column="total_floor" property="totalFloor"></result>
+        <result column="watch_times" property="watchTimes"></result>
+        <result column="build_year" property="buildYear"></result>
+        <result column="status" property="status"></result>
+        <result column="create_time" property="createTime" javaType="java.time.LocalDateTime" jdbcType="TIME"></result>
+        <result column="last_update_time" property="lastUpdateTime" javaType="java.time.LocalDateTime"
+                jdbcType="TIME"></result>
+        <result column="city_en_name" property="cityEnName"></result>
+        <result column="region_en_name" property="regionEnName"></result>
+        <result column="street" property="street"></result>
+        <result column="district" property="district"></result>
+        <result column="cover" property="cover"></result>
+        <result column="distance_to_subway" property="distanceToSubway"></result>
+    </resultMap>
+
+    <update id="updateCover" parameterType="com.google.house.domain.House">
+        update house
+        set cover = #{cover}
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus" parameterType="com.google.house.domain.House">
+        update house
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+    <update id="updateWatchTimes" parameterType="java.lang.Long">
+        update house
+        set watch_times = watch_times + 1
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.google.house.domain.House" useGeneratedKeys="true" keyProperty="id">
+        insert into house(title, price, area, room, floor, total_floor, watch_times, build_year, status, create_time,
+                          last_update_time, city_en_name, region_en_name, cover, direction, distance_to_subway, parlour,
+                          district, admin_id, bathroom, street)
+        values (#{title}, #{price}, #{area}, #{room}, #{floor}, #{totalFloor}, #{watchTimes}, #{buildYear}, 1,
+                #{createTime}, #{lastUpdateTime}, #{cityEnName}, #{regionEnName}, #{cover}, #{direction},
+                #{distanceToSubway}, #{parlour}, #{direction}, #{adminId}, #{bathroom}, #{street})
+    </insert>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="houseResult">
+        select * from house where id = #{id}
+    </select>
+
+</mapper>
